@@ -1,0 +1,150 @@
+# Question 13 Roman numeral to integer
+# Convert a roman numeral to an integer
+
+# special cases:
+# I can be placed before V (5) and X (10) to make 4 and 9. 
+# X can be placed before L (50) and C (100) to make 40 and 90. 
+# C can be placed before D (500) and M (1000) to make 400 and 900.
+
+
+# approach:
+# split string so elements are seperated
+# check special cases
+# sum elements and return
+
+# converting input to list, splits elements, split()	 is for splitting sentences into words
+s = list(s)
+
+# approach: loop through elements and check pairs
+
+# CHECK SPECIAL CASES FIRST: (code written in matlab style initally)
+
+# if s(i) == C
+# 	if s(i+1)==D
+# 		element(i)=400
+# 	elseif s(i+1)==M
+# 		element(i)=900
+# 	else
+# 		element(i)=100
+
+# elseif s(i) == X
+# 	if s(i+1)==L
+# 		element(i)=40
+# 	elseif s(i+1)==C
+# 		element(i)=90
+# 	else
+# 		element(i)=10
+# elseif s(i) == I
+# 	if s(i+1)==V
+# 		element(i)=4
+# 	elseif s(i+1)==X
+# 		element(i)=9
+# 	else
+# 		element(i)=1
+# else
+# ...
+
+
+# sm = sum(elements)
+
+# #  another idea is to have a 'reference table', so each numeral is associated to a 
+# vector of values, in python this is done via a dictionary
+
+# [1 5 10 50 100 500 1000]
+# [I V X L C D M]
+
+
+
+# Final solution, There's probably a faster/cleaner way by using map instead
+class Solution:
+    def romanToInt(self, s: str) -> int:
+        s=list(s)
+        myDict = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
+        ele=[]
+        
+        i=0
+        while i<len(s)-1:
+            if s[i]=='C':
+                if s[i+1]=='D':
+                    ele.append(400)
+                    del s[i:i+2]
+                    i=-1
+                elif s[i+1]=='M':
+                    ele.append(900)
+                    del s[i:i+2]
+                    i=-1
+
+            elif s[i]=='X':
+                if s[i+1]=='L':
+                    ele.append(40)
+                    del s[i:i+2]
+                    i=-1
+                elif s[i+1]=='C':
+                    ele.append(90)
+                    del s[i:i+2]
+                    i=-1
+                    
+            elif s[i]=='I':
+                if s[i+1]=='V':
+                    ele.append(4)
+                    del s[i:i+2]
+                    i=-1
+                elif s[i+1]=='X':
+                    ele.append(9)
+                    del s[i:i+2]
+                    i=-1
+ 
+            i=i+1
+        
+        if s!=[]:
+            i=0
+            for i in range(len(s)):
+                ele.append(myDict[s[i]])
+
+        return sum(ele)
+
+
+
+
+
+
+
+
+
+# Intital solution: (Incomplete)
+
+s=list(s)
+        myDict = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
+        
+        ele=[]
+        
+        for i in range(len(s)):
+            if i!=len(s)-1:
+                if s[i]=='C':
+                    if s[i+1]=='D':
+                        ele.append(400)
+                    elif s[i+1]=='M':
+                        ele.append(900)
+                    else:
+                        ele.append(100)
+                            
+                elif s[i]=='X':
+                    if s[i+1]=='L':
+                        ele.append(40)
+                    elif s[i+1]=='C':
+                        ele.append(90)
+                    else:
+                        ele.append(10)
+                
+                elif s[i]=='I':
+                    if s[i+1]=='V':
+                        ele.append(4)
+                    elif s[i+1]=='X':
+                        ele.append(9)
+                    else:
+                        ele.append(1)
+            else:
+                ele.append(myDict[s[i]])
+                
+        return sum(ele)
+
