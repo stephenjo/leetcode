@@ -12,48 +12,6 @@
 # check special cases
 # sum elements and return
 
-# converting input to list, splits elements, split()	 is for splitting sentences into words
-s = list(s)
-
-# approach: loop through elements and check pairs
-
-# CHECK SPECIAL CASES FIRST: (code written in matlab style initally)
-
-# if s(i) == C
-# 	if s(i+1)==D
-# 		element(i)=400
-# 	elseif s(i+1)==M
-# 		element(i)=900
-# 	else
-# 		element(i)=100
-
-# elseif s(i) == X
-# 	if s(i+1)==L
-# 		element(i)=40
-# 	elseif s(i+1)==C
-# 		element(i)=90
-# 	else
-# 		element(i)=10
-# elseif s(i) == I
-# 	if s(i+1)==V
-# 		element(i)=4
-# 	elseif s(i+1)==X
-# 		element(i)=9
-# 	else
-# 		element(i)=1
-# else
-# ...
-
-
-# sm = sum(elements)
-
-# #  another idea is to have a 'reference table', so each numeral is associated to a 
-# vector of values, in python this is done via a dictionary
-
-# [1 5 10 50 100 500 1000]
-# [I V X L C D M]
-
-
 
 # Final solution, There's probably a faster/cleaner way by using map instead
 class Solution:
@@ -112,9 +70,12 @@ class Solution:
 
 
 # Intital solution: (Incomplete)
+# converting input to list, splits elements, split() is for splitting sentences into words
+s = list(s)
 
-s=list(s)
-        myDict = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
+# approach: loop through elements and check pairs
+
+    myDict = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
         
         ele=[]
         
