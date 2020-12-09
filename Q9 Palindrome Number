@@ -1,0 +1,30 @@
+# Question 9, Palindrome Number
+
+# note: negative number not considered to be palindrome
+# additional challened: how can this be done without converting to a string first?
+
+# initial approach:
+# reverse input and test if equal to original
+
+# one approach to not converting to string is to loop through...very slow though
+
+# check if input is negative, if so return false
+# convert number to string, flip and check
+
+#Solution: (run time is very poor)
+
+if x<0:
+	return (x>0)
+else:
+	res = [int(x) for x in str(x)]
+	res.reverse()
+	strng = [str(res) for res in res]
+	strng = "".join(strng)
+	rev_int = int(strng)
+
+	return (rev_int==x)
+
+
+# Alt Solution (in one line), found in comments, but still converts it to a string
+return str(x) == str(x)[::-1]
+
