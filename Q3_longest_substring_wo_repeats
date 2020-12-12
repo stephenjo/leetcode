@@ -1,0 +1,134 @@
+# Q3 Longest Substring without repeating characters consists of English letters, digits, symbols and spaces.
+
+# intital approach, straight forward method:
+
+# 1) start from s[0] and compare s[0] match to any of s[1:end]?
+# 2) repeat for each element until failure
+# 3) save final string, log length and return
+
+# correction: looking for longest unique substring within the string, not just from the beginning...hmmm
+
+# Then the solution is to do the same thing as above, however, do it for all elements until len(vec)-1 or the searched vector is 
+# shorter than the longest stored unique string, or until 
+
+# special cases: if string has 2 or less elements, return entire string
+# string = 1 element
+# string = all unique elements
+# string = ""  return 0
+# string = " " return 1?
+
+
+
+# layout:
+# loop 1: iterate from i to end-1 length of string
+
+# 	loop 2:
+# 		start at i and continue as long as each element is unique,
+# 		when not unique condition is met, store that string and it's length
+
+# note: maximum string without duplicates is 128 characters (ascii length)
+
+
+
+
+
+# speed up method: update index when repeat character is found,
+# update next start position to whereever the duplicate character is found.
+
+# Example: s = "abcdefgc" , duplicate is 'c', when this is found as duplicate,
+# the starting index for the next search is 'd'.
+
+# for each new element check against current substring before adding
+# if new element == a previous element, new index is [previous element index + 1]
+
+# Example:
+
+# sub_s 
+# curr_ele
+
+# for i in range(len(sub_s)):
+# 	if curr_ele == sub_s[i]:
+# 		# duplicate found!
+# 		new index = i+1;
+		
+# 		if len(sub_s) > mx_lng:
+# 			update mx_lng
+
+
+# Method to take blocks of original string 's':
+# start at s[0], sub_s = s[0] and test s[1] against it, if != add to substring, sub_s = sub_s + s[1]
+
+# i=1, sub_s = s[0] # initial sub string, start at first element
+# loop: while i != (len(s)-1)
+# test_element = s[i]
+
+# for j in range(len(sub_s)):
+# if sub_s[j]==test_element:
+# 		# duplicate found!
+# 		new index = i+1;
+		
+# 		if len(sub_s) > mx_lng:
+# 			update mx_lng
+
+# if no duplicate characters found, add new element to sub_s and update 'i'
+# sub_s = sub_s + test_element
+# i+=1
+
+# First solution (it is very slow, but works)
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        
+        # test if string is empty
+        if (not(s)):
+            return 0
+        # test if string is just white space
+        elif (not(s and s.strip())):
+            return 1
+        else:
+            if len(s)>1:
+                i=1; mx_lng=0; prev=0; fl=0; sub_s=s[0]
+                while i != len(s):
+                    new_element = s[i]
+
+                    for j in range(0,len(sub_s)):
+                        if sub_s[j]==new_element:
+                            if len(sub_s) > mx_lng:
+                                mx_lng = len(sub_s)
+                            # alt to if --> mx_lng = max(mx_lng, len(sub_s))
+
+                            i = j+prev+1
+                            sub_s = s[i]
+                            prev+=j+1
+                            fl=-1
+                            break
+                    
+                    if fl==0:
+                        sub_s+=new_element
+                        if len(sub_s) > mx_lng:
+                            mx_lng = len(sub_s)
+                    i+=1
+                    fl=0
+            else:
+                mx_lng=1
+            return mx_lng
+
+
+
+# optimized solution from discussion:
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        n = len(s)
+        ans = 0
+        # mp stores the current index of a character
+        mp = {}
+
+        i = 0
+        # try to extend the range [i, j]
+        for j in range(n):
+            if s[j] in mp:
+                i = max(mp[s[j]], i)
+
+            ans = max(ans, j - i + 1)
+            mp[s[j]] = j + 1
+
+        return ans
