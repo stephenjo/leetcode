@@ -1,0 +1,235 @@
+# Q8 String to Integer (atoi)
+
+# Final solution, works but sloppy, need to clean it up/optimize it:
+class Solution:
+    def myAtoi(self, s: str) -> int:
+        ss = s.lstrip(' ')
+        # just applying int(ss) will throw an error if any charcter is not a number
+        # but int(s) will return number even with whitespaces
+
+        if len(ss) == 0:
+            return 0
+
+        # uses a dictionary to find all leading + or - and catches any leading non-digits 
+        d = {"+": 1, "-": 2}
+        i=0; fl=0; ele=[]; chck=0; 
+
+        while i<len(ss) and fl!=-1:
+            if ss[i] in d:
+                ele.append(ss[i])
+            elif ss[i].isdigit() == True:
+                fl=-1
+            else:
+                fl=-1
+                return 0
+            i+=1
+
+        # if string contains more than 1 + or -, return 0
+        if len(ele)>1:
+            return 0
+
+        elif ele !=[]:
+            if ele[len(ele)-1]=='-':
+                chck=-1
+            index = len(ele)-1
+            ss = ss[index+1:]
+
+        # after removing leading  + and -, check if string is empty 
+        if len(ss) == 0:
+            return 0
+
+        # check elements one by one until not digit, if first non-digit ' ' ok, else fail
+        fl=0; i=0; num_str=[]
+        # do this loop as long as both conditions are true
+        while i<len(ss) and fl!=1:
+            if ss[i].isdigit():
+                    #store value
+                num_str.append(ss[i])
+                i+=1
+            else:
+                fl=1
+
+        #join num and check magnitude is less than 2^32
+        num_str = "".join(num_str)
+        num = int(num_str)
+
+        if num.bit_length()>=32:
+            if chck==-1:
+                return -2**31
+            return 2**31-1
+
+        if chck==-1:
+            num=num*(-1)
+
+        return num
+
+
+
+
+# Question Description:
+# The function first discards as many whitespace characters as necessary
+# until the first non-whitespace character is found. Then, starting from
+# this character takes an optional initial plus or minus sign followed 
+# by as many numerical digits as possible, and interprets them as a 
+# numerical value.
+
+# The string can contain additional characters after those that form the
+# integral number, which are ignored and have no effect on the behavior
+# of this function.
+
+# If the first sequence of non-whitespace characters in str is not a
+# valid integral number, or if no such sequence exists because either 
+# str is empty or it contains only whitespace characters, no conversion
+# is performed.
+
+# If no valid conversion could be performed, a zero value is returned.
+
+# Note:
+
+# Only the space character ' ' is considered a whitespace character.
+# Assume we are dealing with an environment that could only store integers
+# within the 32-bit signed integer range: [−231,  231 − 1]. If the numerical
+# value is out of the range of representable values, 2^31 − 1 or −2^31 is returned.
+
+
+
+# My notes:
+# - first character must be +- sign or number, anything else return 0 value
+# - only element allowed preceeding the above is ' ' (ie whitespace)
+# - max integer range is 2^32, if greater return 0
+
+
+# Appraoch:
+# - remove preceeding whitespace
+# - check first character: +- or number? if not return 0
+# - if '-' first, create flag to re-apply '-' at the end
+# - abs(num) and convert to integer
+# - check size
+# - return integer value
+
+# After submitting code, the following cases need to be addressed:
+# only a single + or - is allowed, if more, then return 0
+# minimmum negative 32 bit  = -2147483648, how to dynamically generate value based on bits?
+# minimum postive 32 bit = 2147483647 (0 treated as pos)
+# empty string "" return 0 (note: empty string has len 0)
+
+
+#remove leading whitespace from string, ' ' specifies only whitespaces are removed, not tabs, etc
+s_strip_leading_whitespace = s.lstrip(' ')
+
+#check first element
+
+
+#check if x is negative
+chck=0
+if x<0:
+    x=abs(x)
+    chck=1
+
+#check if x is larger than 32bit, if so return 0
+if rev_int.bit_length()>=32:
+	#return 0
+	print(0)
+else:
+
+
+
+
+#Intial Solution:
+ss = s.lstrip(' ')
+
+# just applying int(ss) will throw an error if any charcter is not a number
+# but int(s) will return number even with whitespaces
+chck=0
+if ss[0]=='-':
+    #remove '-' and check flag to re-apply '-' at the end
+    #remove index 0 by slicing
+    ss = ss[:0] + ss[0 + 1:]
+    chck=-1
+elif ss[0]=='+':
+    # remove '+' and continue
+    ss = ss[:0] + ss[0 + 1:]
+    
+
+# check elements one by one until not digit, if first non-digit ' ' ok, else fail
+fl=0; i=0; num_str=[]
+# do this loop as long as both conditions are true
+while i<len(ss) and fl!=1:
+    if ss[i].isdigit():
+        #store value
+        num_str.append(ss[i])
+        i+=1
+    elif ss[i]==' ':
+        # check if element is whitespace, if not fail
+        fl=1
+    else:
+        fl=1
+        return 0
+
+#join num and check magnitude is less than 2^32
+num_str = "".join(num_str)
+num = int(num_str)
+
+if num.bit_length()>=32:
+	return 0
+
+if chck==-1:
+	num=num*(-1)
+
+return
+
+
+
+
+#This code is better, but doesn't catch leading '+-' or '-+'
+class Solution:
+    def myAtoi(self, s: str) -> int:
+        #Intial Solution:
+        ss = s.lstrip(' ')
+        # just applying int(ss) will throw an error if any charcter is not a number
+        # but int(s) will return number even with whitespaces
+        chck=0
+        
+        if ss[0]=='-':
+		    #remove '-' and check flag to re-apply '-' at the end
+		    #remove index 0 by slicing
+            ss = ss[:0] + ss[0 + 1:]
+            chck=-1
+        elif ss[0]=='+':
+		    # remove '+' and continue
+            ss = ss[:0] + ss[0 + 1:]
+        elif ss[0].isdigit() == False:
+            return 0
+		    
+
+		# check elements one by one until not digit, if first non-digit ' ' ok, else fail
+        fl=0; i=0; num_str=[]
+		# do this loop as long as both conditions are true
+        while i<len(ss) and fl!=1:
+            if ss[i].isdigit():
+		        #store value
+                num_str.append(ss[i])
+                i+=1
+		        # elif ss[i]==' ':
+		        # # check if element is whitespace, if not fail
+		        # fl=1
+            else:
+                fl=1
+                #return 0
+
+		#join num and check magnitude is less than 2^32
+        num_str = "".join(num_str)
+        num = int(num_str)
+
+        if num.bit_length()>=32:
+            if chck==-1:
+                return -2147483648
+            return 2147483648
+
+        if chck==-1:
+            num=num*(-1)
+
+        return num
+         
+
+
