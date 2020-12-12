@@ -1,0 +1,11 @@
+#Q4 median of two sorted arrays
+# given nums1 and nums2 return the median
+
+# easiest method is to import statstics module and compute median
+
+class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        import statistics
+        n3 = nums1+nums2
+        return statistics.median(n3)
+        
